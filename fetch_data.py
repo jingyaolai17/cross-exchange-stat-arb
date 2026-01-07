@@ -24,13 +24,9 @@ from datetime import datetime, timedelta
 
 # Exchanges & instruments
 EXCHANGES = {
-    "binance-futures": {
-        "instrument": "perp",
-        "symbols": ["BTCUSDT"],
-    },
-    "kraken-spot": {
+    "kraken": {
         "instrument": "spot",
-        "symbols": ["BTC-USD"],
+        "symbols": ["XBT-USD"],
     },
 }
 
@@ -38,16 +34,15 @@ EXCHANGES = {
 DATA_TYPES = [
     "book_snapshot_25",
     "trades",
-    "incremental_book_L2",
 ]
 
 FROM_DATE = "2025-12-15"
-TO_DATE   = "2025-01-05"
+TO_DATE   = "2026-01-04"
 
 # Tardis API key
 API_KEY = os.getenv(
     "TARDIS_API_KEY",
-    "TD.vWJuOhlrKNyeMPNN.nu9ILFfEckIu-IG.Oc6B0o3-T4GWpTd.EUtGu4ThzdSCzvn.bs5r0f0QuXthEeU.bk6y"
+    "hidden for security"
 )
 
 BASE_URL = "https://datasets.tardis.dev/v1"
@@ -107,6 +102,9 @@ def main():
     start = datetime.fromisoformat(FROM_DATE)
     end   = datetime.fromisoformat(TO_DATE)
 
+    total_downloaded = 0
+    total_failed = 0
+
     for exchange, cfg in EXCHANGES.items():
         instrument = cfg["instrument"]
         symbols = cfg["symbols"]
@@ -136,6 +134,9 @@ def main():
 
                     if f:
                         downloaded_files.append(f)
+                        total_downloaded += 1
+                    else:
+                        total_failed += 1
 
                     current += timedelta(days=1)
 
@@ -152,8 +153,20 @@ def main():
                     except Exception as e:
                         print(f"  Preview failed: {e}")
 
-    print("\nAll downloads complete.")
-    print("Data saved under ./data/{exchange}/{instrument}/")
+    print("\n" + "="*60)
+    print("DOWNLOAD SUMMARY")
+    print("="*60)
+    print(f"Successfully downloaded: {total_downloaded} files")
+    print(f"Failed downloads: {total_failed} files")
+    print(f"\nData saved under ./data/{{exchange}}/{{instrument}}/")
+    
+    if total_downloaded == 0:
+        print("\n⚠ WARNING: No files were downloaded!")
+        print("   Check the error messages above to see why downloads failed.")
+        print("   Common issues:")
+        print("   - Dates are in the future (no data available yet)")
+        print("   - Invalid API key")
+        print("   - Network/API errors")
 
 
 if __name__ == "__main__":
