@@ -1,0 +1,17 @@
+{
+    "version": "cross-xch-core",
+    "pair": { "binance": "BTCUSDT_PERP", "kraken": "XBT-USD_SPOT" },
+    "paths": {
+      "binance_features": "features/binance-futures/perp/BTCUSDT/2025-12-15_to_2025-12-21_BTCUSDT_250ms.parquet",
+      "kraken_features": "features/kraken/spot/XBT-USD/2025-12-15_to_2025-12-21_XBT-USD_250ms.parquet"
+    },
+    "timing": { "bar_ms": 250, "merge_tol": "1s", "latency_ms": 500 },
+    "fees": {
+      "binance_taker_bps": 4.0,
+      "kraken_taker_bps": 6.0,
+      "slip_bps_per_leg": 2.0
+    },
+    "signal": { "z_window_sec": 30, "z_entry": 3.0, "z_exit": 0.5, "stop_z": 6.0 },
+    "filters": { "spread_bps_cap": 10.0, "staleness_cap_sec": 2.0, "min_exec_edge_bps": 14.0 },
+    "risk": { "notional_usd": 10000.0, "max_hold_sec": 180.0, "cooldown_sec": 5.0, "min_hold_sec": 1.0 }
+  }
