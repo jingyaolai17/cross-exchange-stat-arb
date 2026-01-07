@@ -21,6 +21,10 @@ __pycache__/
 # Data directories (if you want to exclude downloaded data)
 # data/
 
+# Reports and output directories  
+reports/
+features/
+
 # Environment variables
 .env
 .env.local

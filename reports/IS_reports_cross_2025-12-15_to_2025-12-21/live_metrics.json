@@ -1,0 +1,11 @@
+{
+  "avg_fees_usd": 20.0,
+  "avg_hold_sec": 10.576291079812206,
+  "cost_bps_on_traded": 10.0,
+  "gross_edge_bps_on_traded": 125.48097139512002,
+  "hit_rate": 0.9530516431924883,
+  "net_edge_bps_on_traded": 115.48097139512002,
+  "total_pnl_after_usd": 76568.69396445894,
+  "trades": 426,
+  "turnover_usd": 8520000.0
+}
